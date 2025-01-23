@@ -1,5 +1,6 @@
 <?php
 
+
 return [
 
     /*
@@ -59,11 +60,18 @@ return [
     |
     */
 
-    'providers' => [
+'providers' => [
+    // ...
+
     'users' => [
         'driver' => 'ldap',
         'model' => LdapRecord\Models\ActiveDirectory\User::class,
-        'rules' => [],
+        'rules' => [
+            \LdapRecord\Laravel\Auth\Rules\OnlyImported::class,
+            
+        ],
+        'scopes' => [
+        ],
         'database' => [
             'model' => App\Models\User::class,
             'sync_passwords' => false,

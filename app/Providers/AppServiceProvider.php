@@ -2,23 +2,23 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
-use Laravel\Fortify\Fortify;
 
-class AuthServiceProvider extends ServiceProvider
+class AppServiceProvider extends ServiceProvider
 {
-    public function boot()
+    /**
+     * Register any application services.
+     */
+    public function register(): void
     {
-        $this->registerPolicies();
+        //
+    }
 
-        Fortify::authenticateUsing(function ($request) {
-            $validated = Auth::validate([
-                'mail' => $request->email,
-                'password' => $request->password,
-            ]);
-
-            return $validated ? Auth::getLastAttempted() : null;
-        });
+    /**
+     * Bootstrap any application services.
+     */
+    public function boot(): void
+    {
+        //
     }
 }

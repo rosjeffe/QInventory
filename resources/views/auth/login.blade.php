@@ -1,73 +1,69 @@
-@extends('layouts.app')
+<title>Quantrics Inventory</title>
+<x-guest-layout>
 
-@section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
-
-                <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}">
-                        @csrf
-
-                        <div class="row mb-3">
-    <label for="username" class="col-md-4 col-form-label text-md-end">{{ __('Username') }}</label>
-
-    <div class="col-md-6">
-        <input id="username" type="text" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required autocomplete="username" autofocus>
-
-        @error('username')
-            <span class="invalid-feedback" role="alert">
-                <strong>{{ $message }}</strong>
-            </span>
-        @enderror
-    </div>
-</div>
-
-                        <div class="row mb-3">
-                            <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
-
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <div class="col-md-6 offset-md-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-
-                                    <label class="form-check-label" for="remember">
-                                        {{ __('Remember Me') }}
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Login') }}
-                                </button>
-
-                                @if (Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Forgot Your Password?') }}
-                                    </a>
-                                @endif
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
+    <!-- Session Status -->
+    @if (session('status'))
+        <div class="mb-4 text-sm text-green-600">
+            {{ session('status') }}
         </div>
-    </div>
-</div>
-@endsection
+    @endif
+
+    <form method="POST" action="{{ route('login') }}">
+        @csrf
+
+        <!-- Username -->
+        <div>
+            <x-input-label for="username" :value="__('Username')" />
+
+            <x-text-input 
+                id="username" 
+                class="block w-full mt-1" 
+                type="text" 
+                name="username" 
+                :value="old('username')" 
+                required 
+                autofocus 
+            />
+
+            <x-input-error :messages="$errors->get('username')" class="mt-2" />
+        </div>
+
+        <!-- Password -->
+        <div class="mt-4">
+            <x-input-label for="password" :value="__('Password')" />
+
+            <x-text-input 
+                id="password" 
+                class="block w-full mt-1" 
+                type="password" 
+                name="password" 
+                required 
+                autocomplete="current-password" 
+            />
+
+            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+        </div>
+
+        <!-- Remember Me -->
+        <div class="block mt-4">
+            <label for="remember_me" class="inline-flex items-center">
+                <input 
+                    id="remember_me" 
+                    type="checkbox" 
+                    class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" 
+                    name="remember"
+                >
+                <span class="ml-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
+            </label>
+        </div>
+
+        <!-- Actions -->
+        <div class="flex items-center justify-end mt-4">
+          
+
+            <x-primary-button class="ml-3">
+                {{ __('Log in') }}
+            </x-primary-button>
+        </div>
+    </form>
+</x-guest-layout>
